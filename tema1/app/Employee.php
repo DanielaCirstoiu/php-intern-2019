@@ -6,19 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-    public static function getEmployees()
+    protected $primarykey = "id";
+    
+    protected $fillable = [
+        'name'
+    ];    
+
+    protected function companies()
     {
-        // $employees = [
-        //     [
-        //         'name' => 'John',
-        //         'company' => 'Roweb'
-        //     ],
-        //     [
-        //         'name' => 'Ion',
-        //         'company' => 'Dacia'
-        //     ]
-        // ];
-        // return $employees;
+        return $this->belongsTo('App\Company');
     }
-    //
 }
