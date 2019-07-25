@@ -10,13 +10,13 @@ class EmployeesController extends Controller
 {
     public function show()
     {
-        $employees = Employee::join('companies','employees.company_id','=','companies.id')
-        ->select('employees.*','companies.name AS company_name')
-        ->get();
+        $employees = Employee::join('companies', 'employees.company_id', '=', 'companies.id')
+            ->select('employees.*', 'companies.name AS company_name')
+            ->get();
 
         $companies = Company::all();
-        
-        return view('employees.index', compact('employees','companies'));
+
+        return view('employees.index', compact('employees', 'companies'));
     }
 
     public function create(Request $request)
@@ -27,48 +27,48 @@ class EmployeesController extends Controller
         $employee->name = $requestData['name'];
         $employee->company_id = $requestData['company_id'];
 
-        $employee -> save();
+        $employee->save();
         return back();
     }
 
     public function read($id)
     {
-        
-        $employee = Employee::find($id);
-        // $employee = Employee::join('companies','employees.company_id','=','companies.id')
-        // ->select('employees.*','companies.name AS company_name')
-        // ->where('employees.id',$id)
-        // ->get();
-        $companies = Company::all();
-        return view('employees.read', ['employee' => $employee],['companies' => $companies]);
+
+        //$employee = Employee::find($id);
+        $employee = Employee::join('companies', 'employees.company_id', '=', 'companies.id')
+            ->select('employees.*', 'companies.name AS company_name')
+            ->where('employees.id', $id)
+            ->first();
+        //dd($employee);
+
+        return view('employees.read', ['employee' => $employee]);
     }
 
     public function edit($id)
     {
-        
+
         $employee = Employee::find($id);
         $companies = Company::all();
- 
-        return view('employees.edit', ['employee' => $employee],['companies' => $companies]);
+        //dd($employee);
+        return view('employees.edit', compact('employee', 'companies'));
     }
 
     public function update($id)
     {
-       
-        $employee = Employee::find(id);
-        
-        $employee->name = request('name');    
- 
+
+        $employee = Employee::find($id);
+
+        $employee->name = request('name');
+        $employee->company_id = request('company_id');
         $employee->save();
- 
+
         return redirect('/employees');
     }
 
     public function destroy($id)
-    {       
+    {
         $employee = Employee::find($id);
         $employee->delete();
         return back();
     }
-
 }

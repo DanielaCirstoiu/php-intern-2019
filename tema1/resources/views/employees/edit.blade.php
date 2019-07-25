@@ -24,9 +24,11 @@
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput2">Company</label>
-                    <select name="company_id" value="{{ $company->name }}" id="formGroupExampleInput2" class="d-block w-100">
+                    <select name="company_id" 
+                     id="formGroupExampleInput2" class="d-block w-100">
                         @foreach($companies as $company)
-                        <option value="{{$company->id}}">{{$company->name}}</option>
+                        <option value="{{$company->id}}"
+                            @if($company->id == $employee->company_id) selected @endif >{{$company->name}}</option>
                         @endforeach
                     </select>
                     <br>
